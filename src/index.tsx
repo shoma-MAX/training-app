@@ -4,19 +4,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 interface Component {
-    value: any;
+    value: string;
 }
 
-class Square extends React.Component<{}, { value: any }>  {
+class Square extends React.Component<{}, { value: string }>  {
 
     constructor(props: any) {
         super(props);
         this.state = {
-            value: '',
+            value: 'O'
         };
-
     }
-
 
     render() {
         return (
