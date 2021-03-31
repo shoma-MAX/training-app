@@ -1,6 +1,6 @@
 
 import firebase from 'firebase';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { render } from 'react-dom';
 
 
@@ -24,6 +24,32 @@ function App() {
   const [users, setUsers]: any[] = useState([]);
   const [userName, setUserName] = useState('');
   const [age, setAge] = useState('');
+
+  useEffect( () => {
+    const db = firebase.firestore();
+    const unsubscribe = db.collection('users').onSnapshot((querySnapshot) => {
+      console.log('追加!!!');
+      querySnapshot.forEach(async doc => {
+        console.log(doc.id, doc.data());
+        console.log('----------------------------');
+
+        // collection取得
+        const snapshot = await db
+          .collection('users')
+          .get()
+        const _users: any = [];
+        snapshot.forEach(doc => {
+          _users.push({
+            userId: doc.id,
+            ...doc.data()
+
+          });
+        });
+        setUsers(_users);
+      });
+    })
+  })
+
   const handleClickFetchButton = async () => {
     // document 取得
     const db = firebase.firestore();
@@ -52,6 +78,9 @@ function App() {
       <li key={user.userId}> {user.name}:{user.age}:</li>
     )
   })
+
+
+
   const handleClickAddButton = async () => {
     // document 取得
     const db = firebase.firestore();
@@ -99,12 +128,12 @@ function App() {
 
   }
   const handleClickDeleteButton = async () => {
-    // const db = firebase.firestore();
-    // db.collection('users').doc('1').delete().then(function () {
-    //   console.log('削除実行')
-    // }).catch(function (error) {
-    //   console.log('エラー発生', error)
-    // });
+    const db = firebase.firestore();
+    db.collection('users').doc('1').delete().then(function () {
+      console.log('削除実行')
+    }).catch(function (error) {
+      console.log('エラー発生', error)
+    });
   };
 
   return (
