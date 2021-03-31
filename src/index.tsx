@@ -98,6 +98,14 @@ function App() {
     })
 
   }
+  const handleClickDeleteButton = async () => {
+    // const db = firebase.firestore();
+    // db.collection('users').doc('1').delete().then(function () {
+    //   console.log('削除実行')
+    // }).catch(function (error) {
+    //   console.log('エラー発生', error)
+    // });
+  };
 
   return (
     <div className="App">
@@ -120,6 +128,7 @@ function App() {
       </div>
       <button onClick={handleClickFetchButton}>取得</button>
       <button onClick={handleClickAddButton}>追加</button>
+      <button onClick={handleClickDeleteButton}>削除</button>
       <ul>{userListItems}</ul>
     </div>
 
